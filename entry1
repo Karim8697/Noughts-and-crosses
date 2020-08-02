@@ -1,0 +1,123 @@
+# Exit / reset code for "play again? Y/N" in win or draw situation
+"""Exit / reset code for "play again? Y/N" in win or draw situation"""
+def game_over(again):
+    if again == "Y":
+        print("Resetting the game board!")
+        game_board(current_state=list("  | | \n-------\n  | | \n-------\n  | | "),\
+               current_player="Player 1", playable_cells=["1", "2", "3", "4", "5", "6", "7"\
+               , "8", "9", "ilovetocheat"])
+    elif again == "N":
+        print("OK, see you next time!")
+        play = False
+        exit()
+
+    else:
+        again = input("Sorry, invalid answer. Do you want to play again? 'Y' or 'N': ")
+        return game_over(again)
+
+"""Main game code"""
+
+def game_board(current_state=list("  | | \n-------\n  | | \n-------\n  | | "),\
+               current_player="Player 1", playable_cells=["1", "2", "3", "4", "5", "6",\
+               "7", "8", "9", "ilovetocheat"], play=True):
+
+    while play:
+
+        """Player 2 win scenario"""
+
+        if current_state[1] == "X" and current_state[3] == "X" and current_state[5] == "X" or \
+        current_state[16] == "X" and current_state[18] == "X" and current_state[20] == "X" or \
+        current_state[31] == "X" and current_state[33] == "X" and current_state[35] == "X" or \
+        current_state[1] == "X" and current_state[16] == "X" and current_state[31] == "X" or \
+        current_state[3] == "X" and current_state[18] == "X" and current_state[33] == "X" or \
+        current_state[5] == "X" and current_state[20] == "X" and current_state[35] == "X" or \
+        current_state[1] == "X" and current_state[18] == "X" and current_state[35] == "X" or \
+        current_state[31] == "X" and current_state[18] == "X" and current_state[5] == "X":
+
+            print("\n"*100)
+            print("".join(current_state))
+            print("\nPlayer 2 wins!")
+            again = input("Play again?(Y/N): ").capitalize()
+            return game_over(again)
+
+        """Player 1 win scenario"""
+
+        if current_state[1] == "O" and current_state[3] == "O" and current_state[5] == "O" or \
+        current_state[16] == "O" and current_state[18] == "O" and current_state[20] == "O" or \
+        current_state[31] == "O" and current_state[33] == "O" and current_state[35] == "O" or \
+        current_state[1] == "O" and current_state[16] == "O" and current_state[31] == "O" or \
+        current_state[3] == "O" and current_state[18] == "O" and current_state[33] == "O" or \
+        current_state[5] == "O" and current_state[20] == "O" and current_state[35] == "O" or \
+        current_state[1] == "O" and current_state[18] == "O" and current_state[35] == "O" or \
+        current_state[31] == "O" and current_state[18] == "O" and current_state[5] == "O":
+
+            print("\n"*100)
+            print("".join(current_state))
+            print("\nPlayer 1 wins!")
+            again = input("Play again?(Y/N): ").capitalize()
+            game_over(again)
+
+        # Draw scenario
+
+        elif len(playable_cells) == 1:
+
+            print("\n"*100)
+            print("".join(current_state))
+            print("\nDraw!")
+            again = input("Play again?(Y/N): ").capitalize()
+            game_over(again)
+
+        print("\n"*100)
+        print("Here is the current state of play\n")
+        print("".join(current_state))
+        print("\n\n 1|2|3\n-------\n 4|5|6    " + current_player +\
+        ", Which cell do you want to play?\n-------\n 7|8|9\n\n")
+        cell_choice = input()
+        while not cell_choice in playable_cells:
+            cell_choice = input("That isn't a valid choice, please choose a cell\
+             (1-9) that hasn't already been played!: ")
+        playable_cells.remove(cell_choice)
+        #change display after input
+        if current_player == "Player 1":
+            current_player = "Player 2"
+            if cell_choice == '1':
+                current_state[1] = "O"
+            elif cell_choice == '2':
+                current_state[3] = "O"
+            elif cell_choice == '3':
+                current_state[5] = "O"
+            elif cell_choice == '4':
+                current_state[16] = "O"
+            elif cell_choice == '5':
+                current_state[18] = "O"
+            elif cell_choice == '6':
+                current_state[20] = "O"
+            elif cell_choice == '7':
+                current_state[31] = "O"
+            elif cell_choice == '8':
+                current_state[33] = "O"
+            elif cell_choice == '9':
+                current_state[35] = "O"
+
+
+        elif current_player == "Player 2":
+            if cell_choice == '1':
+                current_state[1] = "X"
+            elif cell_choice == '2':
+                current_state[3] = "X"
+            elif cell_choice == '3':
+                current_state[5] = "X"
+            elif cell_choice == '4':
+                current_state[16] = "X"
+            elif cell_choice == '5':
+                current_state[18] = "X"
+            elif cell_choice == '6':
+                current_state[20] = "X"
+            elif cell_choice == '7':
+                current_state[31] = "X"
+            elif cell_choice == '8':
+                current_state[33] = "X"
+            elif cell_choice == '9':
+                current_state[35] = "X"
+            current_player = "Player 1"
+game_board()
